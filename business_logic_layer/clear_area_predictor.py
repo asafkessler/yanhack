@@ -1,15 +1,19 @@
 from random import shuffle
-
+import os
 import pandas as pd
 from joblib import dump, load
 from sklearn.linear_model import LinearRegression
-
+from business_logic_layer.ellipse import Ellipse
 from business_logic_layer.ellipse_actions import best_time_for_ellipse
 from business_logic_layer.ellipse_actions import generate_ellipse
 from business_logic_layer.ellipse_time import EllipseTime
 
 
 def predict_time_and_latency_of_clear_area(lat1, lon1, lat2, lon2):
+    if os.path.isfile("clf_end.joblib") and os.path.isfile("clf_start.joblib"):
+        print('-' * 15, 'models already exists' + '-' * 15)
+        return
+
     # get the entire data
     ellipses = generate_ellipse(lat1, lon1, lat2, lon2, 1)
     print('-' * 15, 'finished generating ellipsis' + '-' * 15)
@@ -64,8 +68,9 @@ def predict_new_ellipse(ellipse):
     clf_start = load('clf_start.joblib')
     clf_end = load('clf_end.joblib')
 
-    return EllipseTime(clf_start.predict(ellipse), clf_end.predict(ellipse))
+    return EllipseTime(clf_start.predict([ellipse.get_data()]), clf_end.predict([ellipse.get_data()]))
 
 
 # good area of cover
 predict_time_and_latency_of_clear_area(29, 31, 35, 37)
+predict_new_ellipse(Ellipse(1,1,1))
