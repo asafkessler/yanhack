@@ -1,27 +1,35 @@
 from math import sin, cos, sqrt, atan2, radians
 
 from business_logic_layer.ellipse import Ellipse
-from business_logic_layer.ellipse_time import EllipseTime
 
 
 # given a polygon whne no one flies in it
+from business_logic_layer.ellipse_time import EllipseTime
+
+
 def best_time_for_ellipse(ellipse):
-    tracks = [] #todo pull all data points
-    #sort tracks by time
+    tracks = []  # todo pull all data points
+    # sort tracks by time
     # go with batch by time of track + delta
     # for each batch
-        # check if point(track) exist  in ellipse
-        # if found
-            # if previous batch found a plane in ellipse (not contintus)
-                # update start +end time
-            #else
-                # update end time only
-            #update max if neccessery
-       # else
-            #update that found a plane in ellipse so next batch notice
-    #return max
+    # check if point(track) exist  in ellipse
+    # if found
+    # if previous batch found a plane in ellipse (not contintus)
+    # update start +end time
+    # else
+    # update end time only
+    # update max if neccessery
+    # else
+    # update that found a plane in ellipse so next batch notice
+    # return max
+    return EllipseTime(1,0)
 
 
+# is point in ellipse
+def is_point_in_ellipse(test, center, width, height):
+    dx = test.x - center.x
+    dy = test.y - center.y
+    return (dx * dx) / (width * width) + (dy * dy) / (height * height) <= 1
 
 
 # generate poly in area
@@ -32,14 +40,15 @@ def generate_ellipse(lat1, lon1, lat2, lon2, delta):
 
     ellipses = []
 
-    total_len = len(c_x)*len(c_y)*len(rs)
-    count=0
-    for c1 in c_x:
-        for c2 in c_y:
-            for r in rs:
-                ellipses.append(Ellipse(c1, c2, r))
-                count+=1
-                print(100*count/total_len)
+    total_len = len(c_x) * len(c_y) * len(rs)**2
+    count = 0
+    for x in c_x:
+        for y in c_y:
+            for w in rs:
+                for h in rs:
+                    ellipses.append(Ellipse(x, y, w, h))
+                    count += 1
+                    print(100 * count / total_len)
 
     return ellipses
 

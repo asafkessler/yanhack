@@ -15,7 +15,7 @@ def predict_time_and_latency_of_clear_area(lat1, lon1, lat2, lon2):
         return
 
     # get the entire data
-    ellipses = generate_ellipse(lat1, lon1, lat2, lon2, 1)
+    ellipses = generate_ellipse(lat1, lon1, lat2, lon2, 10)
     print('-' * 15, 'finished generating ellipsis' + '-' * 15)
     # random sort it
     shuffle(ellipses)
@@ -73,4 +73,4 @@ def predict_new_ellipse(ellipse):
 
 # good area of cover
 predict_time_and_latency_of_clear_area(29, 31, 35, 37)
-predict_new_ellipse(Ellipse(1,1,1))
+predict_new_ellipse(Ellipse(1,1,1,1))
