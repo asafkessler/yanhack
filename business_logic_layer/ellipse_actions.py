@@ -6,7 +6,22 @@ from business_logic_layer.ellipse_time import EllipseTime
 
 # given a polygon whne no one flies in it
 def best_time_for_ellipse(ellipse):
-    return EllipseTime(0, 1)
+    tracks = [] #todo pull all data points
+    #sort tracks by time
+    # go with batch by time of track + delta
+    # for each batch
+        # check if point(track) exist  in ellipse
+        # if found
+            # if previous batch found a plane in ellipse (not contintus)
+                # update start +end time
+            #else
+                # update end time only
+            #update max if neccessery
+       # else
+            #update that found a plane in ellipse so next batch notice
+    #return max
+
+
 
 
 # generate poly in area
