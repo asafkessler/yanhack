@@ -1,4 +1,4 @@
-# yanhack
+## yanat hackathon
 The amazing project of application A, in the yanat hackathon.
 
 Help:
@@ -14,3 +14,8 @@ Data Attributes:
 Every DataFrame in converted to a json will -->
 Note NaN’s and None will be converted to null and
 datetime objects will be converted to UNIX timestamps.
+
+<b>Task Description</b>:
+1) pip install pandas
+2) pip install pymongo
+3) pip install OneLib

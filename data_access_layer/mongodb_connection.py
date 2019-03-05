@@ -25,6 +25,6 @@ def put_default_collection():
     print('One post: {0}'.format(result.acknowledged))
 
 
-def test(json_data_frame):
+def put_basic_flights_collection(json_data_frame):
     result = flights_collection_entity.insert_many(json_data_frame)
     print(result.acknowledged)
