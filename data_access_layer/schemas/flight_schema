@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "title": "Flight Component",
+  "description": "A structure representing one flight.",
+  "type": "object",
+  "properties": {
+    "flight_id": {
+      "type": "string"
+    },
+    "ident": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+     "origin": {
+      "type": "string"
+    },
+     "destination": {
+      "type": "string"
+    },
+     "time_utc": {
+      "type": "object",
+      "properties": {
+        "year": {
+          "type": "integer"
+        },
+        "month": {
+          "type": "integer"
+        },
+        "day": {
+          "type": "integer"
+        },
+        "hours": {
+          "type": "number"
+        },
+        "minutes": {
+          "type": "number"
+        },
+         "seconds": {
+          "type": "number"
+        }
+      }
+    },
+    "latitude": {
+      "type": "double"
+    },
+    "longitude": {
+      "type": "double"
+    },
+    "ground_speed": {
+      "type": "integer"
+    },
+    "altitude": {
+      "type": "integer"
+    },
+    "rate": {
+      "type": "integer"
+    },
+    "course": {
+      "type": "integer"
+    },
+    "course": {
+      "type": "integer"
+    },
+    "facility_name": {
+      "type": "string"
+    },
+    "facility_description": {
+      "type": "string"
+    },
+    "estimated_position": {
+      "type": "string"
+    }
+  }
+}
