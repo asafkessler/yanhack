@@ -10,10 +10,13 @@ flight_db_entity = client['flight_db']
 flights_collection_entity = flight_db_entity['flights_collection']
 
 flight_data = {
-    'id': '1',
-    'content': 'Flight Plane Number One',
-    'author': 'Asaf Kessler',
+    'id': '3141',
+    'content': 'checking if env is installed correctly',
+    'author': 'Michael Ehrlich',
     'date': datetime.datetime.utcnow()
 }
 result = flights_collection_entity.insert_one(flight_data)
 print('One post: {0}'.format(result.acknowledged))
+
+def put_df(df):
+    client['mainDb']['flights'].insert_many(df.to_dict())
