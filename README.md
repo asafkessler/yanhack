@@ -9,3 +9,8 @@ git rm -r --cached .idea to remove .idea directory from your project.
 2) Analyzing flights data.
 3) Filtering data.
 4) MongoDb Input and Output Connection.
+
+Data Attributes:
+Every DataFrame in converted to a json will -->
+Note NaN’s and None will be converted to null and
+datetime objects will be converted to UNIX timestamps.

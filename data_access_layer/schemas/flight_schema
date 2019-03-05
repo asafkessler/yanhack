@@ -7,7 +7,7 @@
     "flight_id": {
       "type": "string"
     },
-    "ident": {
+    "identification": {
       "type": "string"
     },
     "type": {
@@ -19,28 +19,8 @@
      "destination": {
       "type": "string"
     },
-     "time_utc": {
-      "type": "object",
-      "properties": {
-        "year": {
-          "type": "integer"
-        },
-        "month": {
-          "type": "integer"
-        },
-        "day": {
-          "type": "integer"
-        },
-        "hours": {
-          "type": "number"
-        },
-        "minutes": {
-          "type": "number"
-        },
-         "seconds": {
-          "type": "number"
-        }
-      }
+     "time": {
+      "type": "long"
     },
     "latitude": {
       "type": "double"
@@ -60,8 +40,8 @@
     "course": {
       "type": "integer"
     },
-    "course": {
-      "type": "integer"
+    "direction": {
+      "type": "string"
     },
     "facility_name": {
       "type": "string"
