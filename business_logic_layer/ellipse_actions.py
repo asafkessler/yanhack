@@ -24,7 +24,7 @@ def best_time_for_ellipse(ellipse):
         # else
             # update that found a plane in ellipse so next batch notice
 
-        # return max
+        # return max or first one
     return EllipseTime(1,0)
 
 
