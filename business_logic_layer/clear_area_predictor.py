@@ -1,8 +1,10 @@
-from random import shuffle
 import os
+from random import shuffle
+
 import pandas as pd
 from joblib import dump, load
 from sklearn.linear_model import LinearRegression
+
 from business_logic_layer.ellipse import Ellipse
 from business_logic_layer.ellipse_actions import best_time_for_ellipse
 from business_logic_layer.ellipse_actions import generate_ellipse
@@ -73,4 +75,4 @@ def predict_new_ellipse(ellipse):
 
 # good area of cover
 predict_time_and_latency_of_clear_area(29, 31, 35, 37)
-predict_new_ellipse(Ellipse(1,1,1,1))
+predict_new_ellipse(Ellipse(1, 1, 1, 1))

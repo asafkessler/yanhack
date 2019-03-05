@@ -12,16 +12,19 @@ def best_time_for_ellipse(ellipse):
     # sort tracks by time
     # go with batch by time of track + delta
     # for each batch
-    # check if point(track) exist  in ellipse
-    # if found
-    # if previous batch found a plane in ellipse (not contintus)
-    # update start +end time
-    # else
-    # update end time only
-    # update max if neccessery
-    # else
-    # update that found a plane in ellipse so next batch notice
-    # return max
+        # check if point(track) exist  in ellipse
+            # if found
+                # if previous batch found a plane in ellipse (not contintus)
+                # update start +end time
+            # else
+            # update end time only
+
+            # update max if neccessery
+
+        # else
+            # update that found a plane in ellipse so next batch notice
+
+        # return max
     return EllipseTime(1,0)
 
 
