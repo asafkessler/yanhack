@@ -1,10 +1,11 @@
+import datetime
 import math
 from math import sin, cos, sqrt, atan2, radians
 
-from business_logic_layer.elipsis_prediction.ellipse import Ellipse
-
 # given a polygon whne no one flies in it
+import pandas as pd
 
+from business_logic_layer.elipsis_prediction.ellipse import Ellipse
 
 FROM_LAT = 29
 TO_LAT = 33
@@ -15,21 +16,51 @@ POINT_DELTA = 0.5
 MINUTES_DELTA = 2
 ANGLE_DELTA = 45
 
+tracks = pd.read_csv('C:\\michael\\work\\Hackathons\\yanhack\\FlightAware_IAI_2015-01-01_2015-03-31_tracks.csv',
+                     low_memory=False)
+minutes = tracks["Time (UTC)"]
+
+
+def get_minute_in_day(timestamp):
+    try:
+        dt = datetime.datetime.strptime(timestamp, "%m/%d/%Y %H:%M:%S")
+        m = dt.minute
+        h = dt.hour
+        return h * 60 + m
+    except:
+        return -1
+
+
+def getdayear(timestamp):
+    dt = datetime.datetime.strptime(timestamp, "%m/%d/%Y %H:%M:%S")
+    return str(dt.day) + ' ' + str(dt.month) + ' ' + str(dt.year)
+
+
+new_min = [get_minute_in_day(dt) for dt in minutes]
+tracks["minute"] = new_min
+
+tracks["day"] = [getdayear(dt) for dt in minutes]
+
 
 def number_of_planes_in_ellipse(ellipse):
-    tracks = []  # todo pull all data points
+    r_tracks = tracks[tracks["minute"] == ellipse.minute]
+    sum = 0
+    total = 0
+    lastday = 0
 
-    if ellipse.minute < 1440 / 4 or ellipse.minute > 1440 * 4 / 3:
-        f = 1
-    else:
-        f = 10
+    for index in r_tracks:
+        track = r_tracks.iloc[index]
+        if (
+                is_point_in_ellipse(track.Latitude, track.Longitude, ellipse.cx, ellipse.cy, ellipse.h, ellipse.w,
+                                    ellipse.a)):
+            sum += 1
+            if lastday != track.day:
+                total += 1
+        lastday = track.day
+    return sum / total
 
-    num = (ellipse.h * ellipse.w * f) ** (0.25)
-    return int(num)
 
-
-# is point in ellipse
-def is_point_in_ellipse(x, y, xp, yp, d, D, angle):
+def is_point_in_ellipse(xp, yp, x, y, d, D, angle):
     # tests if a point[xp,yp] is within
     # boundaries defined by the ellipse
     # of center[x,y], diameter d D, and tilted at angle
