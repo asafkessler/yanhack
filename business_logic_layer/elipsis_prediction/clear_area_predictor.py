@@ -5,9 +5,9 @@ import pandas as pd
 from joblib import dump, load
 from sklearn.linear_model import LinearRegression
 
-from business_logic_layer.ellipse import Ellipse
-from business_logic_layer.ellipse_actions import generate_ellipse
-from business_logic_layer.ellipse_actions import number_of_planes_in_ellipse
+from business_logic_layer.elipsis_prediction.ellipse import Ellipse
+from business_logic_layer.elipsis_prediction.ellipse_actions import generate_ellipse
+from business_logic_layer.elipsis_prediction.ellipse_actions import number_of_planes_in_ellipse
 
 
 def get_ellipsis():
@@ -25,7 +25,7 @@ def get_ellipsis():
 
 
 def build_model():
-    if os.path.isfile("clf_end.joblib") and os.path.isfile("clf_start.joblib"):
+    if os.path.isfile("clf.joblib"):
         pprint('models already exists')
         return
 
@@ -65,12 +65,15 @@ def build_model():
     # calculate how right i was
     success = 0
     sum = 0
+    results = [['prediction', 'actual']]
     for index in range(0, len(p)):
+        results.append([p[index], y[last_index + index]])
         success += (p[index] == (y[last_index + index]))
-        sum += (p[index] - y[last_index + index])**2
-    rmse = (sum/len(p))**0.5
-    print("rmse: ",rmse)
+        sum += (p[index] - y[last_index + index]) ** 2
+    rmse = (sum / len(p)) ** 0.5
+    print("rmse: ", rmse)
     print('success rate: ', 100 * success / (len(y) - last_index), ' %')
+    pd.DataFrame(results).to_csv('results.csv',index=False, header=False)
 
 
 def pprint(to_print):
@@ -84,7 +87,7 @@ def predict_new_ellipse(cx, cy, w, h, angle):
 
 
 def expand_ellipse(cx, cy, w, h, angle):
-    from business_logic_layer.ellipse_actions import MINUTES_DELTA
+    from business_logic_layer.elipsis_prediction.ellipse_actions import MINUTES_DELTA
 
     minutes = [m for m in range(0, 1440, MINUTES_DELTA)]
     ellipses = []
@@ -92,7 +95,7 @@ def expand_ellipse(cx, cy, w, h, angle):
         ellipses.append(Ellipse(cx, cy, w, h, angle, m))
     ellipses = [e.get_data() for e in ellipses]
 
-    return pd.DataFrame(ellipses, index=False)
+    return pd.DataFrame(ellipses)
 
 
 # good area of cover

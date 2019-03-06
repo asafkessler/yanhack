@@ -1,7 +1,7 @@
 import math
 from math import sin, cos, sqrt, atan2, radians
 
-from business_logic_layer.ellipse import Ellipse
+from business_logic_layer.elipsis_prediction.ellipse import Ellipse
 
 # given a polygon whne no one flies in it
 
