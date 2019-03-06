@@ -45,7 +45,7 @@ def build_model():
         y.append(number_of_planes_in_ellipse(
             Ellipse(ellipse[0], ellipse[1], ellipse[2], ellipse[3], ellipse[4], ellipse[5])))
         count += 1
-        print(100 * count / rows)
+        print('label progress', 100 * count / rows)
 
     pprint('finished labeling')
 
