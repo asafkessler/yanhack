@@ -1,16 +1,11 @@
-from data_access_layer.models.time import Time
-from data_access_layer.models.flight import Flight
-import json
-from pymongo import MongoClient
 import datetime
+from pymongo import MongoClient
+import data_access_layer.consts_db as DBConst
 
-client = MongoClient("mongodb://yanhack:yanhack123@yanhackdb-shard-00-00-g7qpy.azure.mongodb.net:27017,"
-                     "yanhackdb-shard-00-01-g7qpy.azure.mongodb.net:27017,"
-                     "yanhackdb-shard-00-02-g7qpy.azure.mongodb.net:27017/test?ssl=true&"
-                     "replicaSet=YanhackDb-shard-0&authSource=admin&retryWrites=true")
+client = MongoClient(DBConst.CONNECTION_STRING)
 
-flight_db_entity = client['flight_db']
-flights_collection_entity = flight_db_entity['flights_collection']
+flight_db_entity = client[DBConst.FLIGHT_COLLECTION_NAME]
+flights_collection_entity = flight_db_entity[DBConst.FLIGHT_DB_ENTITY_NAME]
 
 
 def put_default_collection():
@@ -29,8 +24,10 @@ def put_basic_flights_collection(json_data_frame):
     result = flights_collection_entity.insert_many(json_data_frame)
     print(result.acknowledged)
 
+
 def get_all_dbs():
     return client.database_names()
+
 
 def get_all_collections():
     collections_list = []
@@ -38,9 +35,11 @@ def get_all_collections():
         collections_list.append(client[curr_db].collection_names())
     return collections_list
 
+
 def retrieve_one(collection):
     bills_post = collection.find_one({'author': 'Bill'})
     print(bills_post)
+
 
 def retrieve_many(collection):
     scotts_posts = collection.find({'author': 'Scott'})
