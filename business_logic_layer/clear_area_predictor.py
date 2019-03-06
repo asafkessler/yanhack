@@ -6,18 +6,19 @@ from joblib import dump, load
 from sklearn.linear_model import LinearRegression
 
 from business_logic_layer.ellipse import Ellipse
-from business_logic_layer.ellipse_actions import best_time_for_ellipse
 from business_logic_layer.ellipse_actions import generate_ellipse
+from business_logic_layer.ellipse_actions import number_of_planes_in_ellipse
 from business_logic_layer.ellipse_time import EllipseTime
 
 
-def predict_time_and_latency_of_clear_area(lat1, lon1, lat2, lon2):
+def predict_time_and_latency_of_clear_area():
     if os.path.isfile("clf_end.joblib") and os.path.isfile("clf_start.joblib"):
         print('-' * 15, 'models already exists' + '-' * 15)
         return
 
     # get the entire data
-    ellipses = generate_ellipse(lat1, lon1, lat2, lon2, 10)
+    ellipses = generate_ellipse()
+
     print('-' * 15, 'finished generating ellipsis' + '-' * 15)
     # random sort it
     shuffle(ellipses)
@@ -25,7 +26,7 @@ def predict_time_and_latency_of_clear_area(lat1, lon1, lat2, lon2):
     # for all calculate: when enter and for how long
     y = []
     for ellipse in ellipses:
-        y.append(best_time_for_ellipse(ellipse))
+        y.append(number_of_planes_in_ellipse(ellipse))
 
     print('-' * 15, 'finished labeling' + '-' * 15)
 
@@ -74,5 +75,5 @@ def predict_new_ellipse(ellipse):
 
 
 # good area of cover
-predict_time_and_latency_of_clear_area(29, 31, 35, 37)
-predict_new_ellipse(Ellipse(1, 1, 1, 1))
+predict_time_and_latency_of_clear_area()
+predict_new_ellipse(Ellipse(1, 1, 1, 1, 1, 1))
