@@ -19,7 +19,7 @@ def get_ellipsis():
     shuffle(ellipses)
     pprint('finished generating ellipsis')
     df = pd.DataFrame(e.get_data() for e in ellipses[:])
-    df.to_csv("ellipsis.csv")
+    df.to_csv("ellipsis.csv", index=False, header=False)
     pprint('ellipsis saved as csv')
     return df
 
@@ -31,18 +31,23 @@ def build_model():
 
     # get the entire data
     ellipses = get_ellipsis()
-
-    # for all calculate: when enter and for how long
-    y = []
-    for ellipse in ellipses:
-        y.append(number_of_planes_in_ellipse(ellipse))
-
-    pprint('finished labeling')
-
     # divide to 80  20
     last_index = int(len(ellipses) * 0.8)
     train = ellipses.iloc[:last_index]
     test = ellipses.iloc[last_index:]
+
+    # for all calculate: when enter and for how long
+    y = []
+    rows = len(ellipses.index)
+    count = 0
+    for index in range(0, rows):
+        ellipse = (ellipses.iloc[index])
+        y.append(number_of_planes_in_ellipse(
+            Ellipse(ellipse[0], ellipse[1], ellipse[2], ellipse[3], ellipse[4], ellipse[5])))
+        count += 1
+        print(100 * count / rows)
+
+    pprint('finished labeling')
 
     # train the data with 2 models (2 outputs)
     clf = LinearRegression(fit_intercept=True, normalize=True, copy_X=True, n_jobs=5)
@@ -59,8 +64,12 @@ def build_model():
 
     # calculate how right i was
     success = 0
+    rmse = 0
     for index in range(0, len(p)):
         success += (p[index] == (y[last_index + index]))
+        rmse += (p[index] - y[last_index + index])
+
+
 
     print('success rate: ', 100 * success / (len(y) - last_index), ' %')
 
