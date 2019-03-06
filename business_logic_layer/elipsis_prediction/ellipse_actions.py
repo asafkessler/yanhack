@@ -10,9 +10,9 @@ FROM_LAT = 29
 TO_LAT = 33
 FROM_LON = 33
 TO_LON = 36
-DIST_DELTA = 40
-POINT_DELTA = 1
-MINUTES_DELTA = 60
+DIST_DELTA = 30
+POINT_DELTA = 0.5
+MINUTES_DELTA = 2
 ANGLE_DELTA = 45
 
 
@@ -68,7 +68,7 @@ def generate_ellipse():
                         for m in minutes:
                             ellipses.append(Ellipse(x, y, w, h, angle, m))
                             count += 1
-                            print(100 * count / total_len)
+                            print('ellipse progress', 100 * count / total_len)
 
     return ellipses
 
