@@ -11,7 +11,6 @@ def track_collection_create_in_db():
     t_map['bla']
 
 
-
 def create_track_collection_from_db(tracks_csv):
     tracks_map = {}
 
