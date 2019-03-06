@@ -21,7 +21,7 @@ class Track(AbstractObject):
 
     def csv_to_track(self, track_csv_row):
         for att in track_mapper:
-            self.__setattr__(self, att, track_csv_row[att])
+            self.__setattr__(self, att.lower(), track_csv_row[att])
 
     def getId(self):
         return self._id
