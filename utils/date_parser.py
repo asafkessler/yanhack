@@ -9,7 +9,7 @@ def UTC_time_to_epoch(timestamp):
       # ex. 01/01/2015 13:08:48
     """
     unix_epoch = datetime.datetime(1970, 1, 1)
-    log_dt = datetime.datetime.strptime(timestamp, "%Y/%m/%d %H:%M:%S")
+    log_dt = datetime.datetime.strptime(timestamp, "%d/%m/%Y %H:%M:%S")
     seconds_from_epoch = (log_dt - unix_epoch).total_seconds() * 1000
     return seconds_from_epoch
 

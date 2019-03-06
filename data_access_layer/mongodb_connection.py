@@ -6,6 +6,7 @@ client = MongoClient(DBConst.CONNECTION_STRING)
 
 flight_db_entity = client[DBConst.FLIGHT_COLLECTION_NAME]
 flights_collection_entity = client[DBConst.FLIGHT_DB_ENTITY_NAME]
+fixed_flights_collection_entity = client[DBConst.TRACKS_DB_ENTITY_NAME]
 
 
 def put_default_collection():
@@ -20,8 +21,8 @@ def put_default_collection():
     print('One post: {0}'.format(result.acknowledged))
 
 
-def put_basic_flights_collection(json_data_frame):
-    result = flights_collection_entity.insert_many(json_data_frame)
+def put_basic_flights_collection(collection, json_data_frame):
+    result = collection.insert_many(json_data_frame)
     print(result.acknowledged)
 
 

@@ -14,7 +14,7 @@ class StateVector(AbstractObject):
     def from_csv(self, track_row):
         self.snapshot_ts = dateParser.UTC_time_to_epoch(track_row['Time (UTC)'])
         self.lat = track_row['Latitude']
-        self.altitude = track_row['Altitude']
+        self.altitude = track_row['Altitude (ft)']
         self.long = track_row['Longitude']
         self.ground_speed = track_row['Groundspeed (kts)']
         self.direction = track_row['Direction']

@@ -19,9 +19,9 @@ class Track(AbstractObject):
         self.state_vectors.insert(0, state_vector)
         self.state_vectors.sort(key=(lambda vector: vector.snapshot_ts))
 
-    def csv_to_track(self, track_csv_row):
-        for att in track_mapper:
-            self.__setattr__(self, att.lower(), track_csv_row[att])
+    # def csv_to_track(self, track_csv_row):
+    #     for att in track_mapper:
+    #         self.__setattr__(self, att.lower(), track_csv_row[att])
 
     def getId(self):
         return self._id

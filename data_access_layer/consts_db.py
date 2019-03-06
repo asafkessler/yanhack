@@ -10,5 +10,5 @@ FLIGHT_COLLECTION_NAME = 'flight_db'
 
 # collection names
 FLIGHT_DB_ENTITY_NAME = 'flights_collection'
-tracks_DB_ENTITY_NAME = 'tracks_collection'
+TRACKS_DB_ENTITY_NAME = 'tracks_collection'
 

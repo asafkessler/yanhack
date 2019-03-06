@@ -6,24 +6,25 @@ import utils.data_parser as parser
 
 def track_collection_create_in_db():
     file_path = csv_files_handler.get_relevant_file_path()
-    tracks_csv = parser.create_csv_based_db_collection(file_path)
-    t_map = create_track_collection_from_db(tracks_csv)
-    t_map['bla']
+    tracks_data_frame = parser.create_flights_data_frame(file_path)
+    tracks_json_frame = parser.create_small_tracks_db_collection(tracks_data_frame)
+    track_map = create_track_collection_from_db(tracks_json_frame)
+    return track_map
 
 
-def create_track_collection_from_db(tracks_csv):
+def create_track_collection_from_db(tracks_from_csv):
     tracks_map = {}
 
-    def handle_track(track_from_db):
+    for track_from_db in tracks_from_csv:
         state_v = StateVector()
         state_v.from_csv(track_from_db)
 
-        if track_from_db["flight_id"] in tracks_map:
-            track = tracks_map[track_from_db["flight_id"]]
+        if track_from_db["Flight ID"] in tracks_map:
+            track = tracks_map[track_from_db["Flight ID"]]
         else:
             track = Track()
-            track._id = track_from_db["flight_id"]
-            track.csv_to_track(track_from_db)
+            track._id = track_from_db["Flight ID"]
+            # track.csv_to_track(track_from_db)
 
         track.add_to_state_vector_list(state_v)
         tracks_map[track.getId()] = track
