@@ -12,6 +12,7 @@ if __name__ == '__main__':
     size_object = csv_handler.get_object_memory_size(schema_based_flights_json)
     print("size object :", size_object)
     mongo_clint.put_basic_flights_collection(schema_based_flights_json)
+    #OperationFailure: you are over your space quota, using 530 MB of 512 MB
 
 
 

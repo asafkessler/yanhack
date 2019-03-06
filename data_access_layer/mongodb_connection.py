@@ -28,3 +28,20 @@ def put_default_collection():
 def put_basic_flights_collection(json_data_frame):
     result = flights_collection_entity.insert_many(json_data_frame)
     print(result.acknowledged)
+
+def get_all_dbs():
+    return client.database_names()
+
+def get_all_collections():
+    collections_list = []
+    for curr_db in client.database_names():
+        collections_list.append(client[curr_db].collection_names())
+    return collections_list
+
+def retrieve_one(collection):
+    bills_post = collection.find_one({'author': 'Bill'})
+    print(bills_post)
+
+def retrieve_many(collection):
+    scotts_posts = collection.find({'author': 'Scott'})
+    print(scotts_posts)

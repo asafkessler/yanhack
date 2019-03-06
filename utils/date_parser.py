@@ -1,10 +1,15 @@
 import datetime
 
-def utc_time_parser(time_string):
+
+def UTC_time_to_epoch(timestamp):
     """
-    A method getting a utc time string and returning a time object.
-    :param time_string: Utc time string.
-    :return:Time object.
+      A method getting a utc time string and returning a time object.
+      :param timestamp:Utc time string.
+      :return:Time object.
+      # ex. 01/01/2015 13:08:48
     """
-    date_entity = datetime.datetime(time_string)
-    # need to convert UTC time to Epoch
+    unix_epoch = datetime.datetime(1970, 1, 1)
+    log_dt = datetime.datetime.strptime(timestamp, "%Y/%m/%d %H:%M:%S")
+    seconds_from_epoch = (log_dt - unix_epoch).total_seconds() * 1000
+    return seconds_from_epoch
+
