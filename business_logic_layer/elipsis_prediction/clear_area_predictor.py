@@ -64,13 +64,12 @@ def build_model():
 
     # calculate how right i was
     success = 0
-    rmse = 0
+    sum = 0
     for index in range(0, len(p)):
         success += (p[index] == (y[last_index + index]))
-        rmse += (p[index] - y[last_index + index])
-
-
-
+        sum += (p[index] - y[last_index + index])**2
+    rmse = (sum/len(p))**0.5
+    print("rmse: ",rmse)
     print('success rate: ', 100 * success / (len(y) - last_index), ' %')
 
 
