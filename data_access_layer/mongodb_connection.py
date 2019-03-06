@@ -5,7 +5,7 @@ import data_access_layer.consts_db as DBConst
 client = MongoClient(DBConst.CONNECTION_STRING)
 
 flight_db_entity = client[DBConst.FLIGHT_COLLECTION_NAME]
-flights_collection_entity = flight_db_entity[DBConst.FLIGHT_DB_ENTITY_NAME]
+flights_collection_entity = client[DBConst.FLIGHT_DB_ENTITY_NAME]
 
 
 def put_default_collection():
@@ -34,6 +34,17 @@ def get_all_collections():
     for curr_db in client.database_names():
         collections_list.append(client[curr_db].collection_names())
     return collections_list
+
+
+def retrieve_many_non_dummy_with_lambda(collection_name, fn, filter_obj=None):
+    collection = client[collection_name]
+    if collection is None:
+        print("collection {0} doesn't exist!".format(collection_name))
+        return
+    if filter_obj is None:
+        collection_name.find().forEach(fn)
+    else:
+        collection_name.find(filter_obj).forEach(fn)
 
 
 def retrieve_one(collection):
