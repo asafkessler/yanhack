@@ -8,72 +8,87 @@ from sklearn.linear_model import LinearRegression
 from business_logic_layer.ellipse import Ellipse
 from business_logic_layer.ellipse_actions import generate_ellipse
 from business_logic_layer.ellipse_actions import number_of_planes_in_ellipse
-from business_logic_layer.ellipse_time import EllipseTime
 
 
-def predict_time_and_latency_of_clear_area():
+def get_ellipsis():
+    if os.path.isfile("ellipsis.csv"):
+        pprint('loaded exist ellipsis')
+        return pd.read_csv("ellipsis.csv")
+    ellipses = generate_ellipse()
+    # random sort it
+    shuffle(ellipses)
+    pprint('finished generating ellipsis')
+    df = pd.DataFrame(e.get_data() for e in ellipses[:])
+    df.to_csv("ellipsis.csv")
+    pprint('ellipsis saved as csv')
+    return df
+
+
+def build_model():
     if os.path.isfile("clf_end.joblib") and os.path.isfile("clf_start.joblib"):
-        print('-' * 15, 'models already exists' + '-' * 15)
+        pprint('models already exists')
         return
 
     # get the entire data
-    ellipses = generate_ellipse()
-
-    print('-' * 15, 'finished generating ellipsis' + '-' * 15)
-    # random sort it
-    shuffle(ellipses)
+    ellipses = get_ellipsis()
 
     # for all calculate: when enter and for how long
     y = []
     for ellipse in ellipses:
         y.append(number_of_planes_in_ellipse(ellipse))
 
-    print('-' * 15, 'finished labeling' + '-' * 15)
+    pprint('finished labeling')
 
-    # devide to 80  20
+    # divide to 80  20
     last_index = int(len(ellipses) * 0.8)
-    train = pd.DataFrame(e.get_data() for e in ellipses[:last_index])
-    test = pd.DataFrame(e.get_data() for e in ellipses[last_index:])
+    train = ellipses.iloc[:last_index]
+    test = ellipses.iloc[last_index:]
 
     # train the data with 2 models (2 outputs)
     clf = LinearRegression(fit_intercept=True, normalize=True, copy_X=True, n_jobs=5)
-    y_start = [n.start for n in y]
-    y_end = [n.end for n in y]
 
     # predict the output
-    clf.fit(train, y_start[:last_index])
-    print('-' * 15, 'finished fitting start module' + '-' * 15)
+    clf.fit(train, y[:last_index])
+    pprint('finished fitting module')
 
-    dump(clf, 'clf_start.joblib')
-    print('-' * 15, 'finished saving start module' + '-' * 15)
+    dump(clf, 'clf.joblib')
+    pprint('finished saving module')
 
-    p_start = clf.predict(test)
-    print('-' * 15, 'finished predicting start module' + '-' * 15)
-
-    clf.fit(train, y_end[:last_index])
-    print('-' * 15, 'finished fitting end module' + '-' * 15)
-
-    dump(clf, 'clf_end.joblib')
-    print('-' * 15, 'finished saving end module' + '-' * 15)
-
-    p_end = clf.predict(test)
-    print('-' * 15, 'finished predicting end module' + '-' * 15)
+    p = clf.predict(test)
+    pprint('finished predicting module')
 
     # calculate how right i was
     success = 0
-    for index in range(0, len(p_start)):
-        success += (EllipseTime(p_start[index], p_end[index])).__eq__(y[last_index + index])
+    for index in range(0, len(p)):
+        success += (p[index] == (y[last_index + index]))
 
     print('success rate: ', 100 * success / (len(y) - last_index), ' %')
 
 
-def predict_new_ellipse(ellipse):
-    clf_start = load('clf_start.joblib')
-    clf_end = load('clf_end.joblib')
+def pprint(to_print):
+    print('-' * 15, to_print + '-' * 15)
 
-    return EllipseTime(clf_start.predict([ellipse.get_data()]), clf_end.predict([ellipse.get_data()]))
+
+def predict_new_ellipse(cx, cy, w, h, angle):
+    clf = load('clf.joblib')
+    ellipses = expand_ellipse(cx, cy, w, h, angle)
+    return clf.predict(ellipses)
+
+
+def expand_ellipse(cx, cy, w, h, angle):
+    from business_logic_layer.ellipse_actions import MINUTES_DELTA
+
+    minutes = [m for m in range(0, 1440, MINUTES_DELTA)]
+    ellipses = []
+    for m in minutes:
+        ellipses.append(Ellipse(cx, cy, w, h, angle, m))
+    ellipses = [e.get_data() for e in ellipses]
+
+    return pd.DataFrame(ellipses, index=False)
 
 
 # good area of cover
-predict_time_and_latency_of_clear_area()
-predict_new_ellipse(Ellipse(1, 1, 1, 1, 1, 1))
+build_model()
+
+p = predict_new_ellipse(1, 1, 10, 20, 0)
+print(p)

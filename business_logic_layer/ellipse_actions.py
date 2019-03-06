@@ -9,8 +9,10 @@ FROM_LAT = 29
 TO_LAT = 33
 FROM_LON = 33
 TO_LON = 36
-DIST_DELTA = 20
+DIST_DELTA = 40
 POINT_DELTA = 1
+MINUTES_DELTA = 2
+ANGLE_DELTA = 45
 
 
 def number_of_planes_in_ellipse(ellipse):
@@ -45,8 +47,8 @@ def generate_ellipse():
     ws = frange(DIST_DELTA, dist(FROM_LAT, FROM_LON, TO_LAT, FROM_LON), DIST_DELTA)
     # dist on y axis
     hs = frange(DIST_DELTA, dist(FROM_LAT, FROM_LON, FROM_LAT, TO_LON), DIST_DELTA)
-    a = [angle for angle in range(0, 360, 45)]
-    minutes = [m for m in range(0, 1440,2)] #minutes in a day
+    a = [angle for angle in range(0, 360, ANGLE_DELTA)]
+    minutes = [m for m in range(0, 1440, MINUTES_DELTA)] #minutes in a day
     ellipses = []
 
     total_len = len(c_x) * len(c_y) * len(a) * len(ws)*len(hs) * len(minutes)
