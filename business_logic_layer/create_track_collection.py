@@ -23,6 +23,7 @@ def create_track_collection_from_db(tracks_csv):
         else:
             track = Track()
             track._id = track_from_db["flight_id"]
+            track.csv_to_track(track_from_db)
 
         track.add_to_state_vector_list(state_v)
         tracks_map[track.getId()] = track

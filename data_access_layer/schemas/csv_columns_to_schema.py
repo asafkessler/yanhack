@@ -16,6 +16,16 @@ mapper = {"Flight ID": "flight_id",
           "Estimated Pos.": "estimated_position"
           }
 
+track_mapper = [
+    "Ident",
+    "Type",
+    "Origin",
+    "Destination",
+    "Facility Name",
+    "Estimated Pos.",
+    "Facility Description"
+]
+
 # import json
 # class CSV_Columns_To_Schema:
 #     reletive_path
