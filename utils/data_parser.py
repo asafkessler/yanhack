@@ -56,6 +56,19 @@ def create_half_gigabyte_db_collection(flights_data_frame):
     return split_json_frame
 
 
+def create_small_db_collection(flights_data_frame):
+    """
+    Takes the first 10100 rows of information in the first csv file, and returns it.
+    :param file_path: default (first) parsing file path.
+    :return: smaller json object.
+    """
+    SMALL_DB_SIZE = 10100  # number_ collections
+    # slicing the rows by half to get half gigabyte of data
+    small_data_batch = flights_data_frame[0: int(SMALL_DB_SIZE)]
+    split_json_frame = get_flights_json_data(small_data_batch)
+    return split_json_frame
+
+
 def create_csv_information_head(flights_data_frame):
     """
     Experimenting with the data.

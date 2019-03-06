@@ -13,6 +13,7 @@ flight_db_entity = client['flight_db']
 flights_collection_entity = flight_db_entity['flights_collection']
 small_flights_collection_entity = flight_db_entity['small_flights_collection']
 
+
 def put_default_collection():
     flight_data = {
         'id': '3141',
@@ -53,16 +54,49 @@ def retrieve_one_document(collection, key):
     return one_json_document
 
 
-def retrieve_all_documents(collection, document):
+def retrieve_many_documents(collection, document):
     """
-      This method retrieves back one document, by its document key.
+      This method retrieves back many documents, by a document key.
       :param collection: The db collection object.
       :param document: A dictionary of {"document_key": "search_value"}.
-      For the first document just put empty dictionary {}.
+      For all the collection just put empty dictionary {}.
       :return: Json List<Object>.
       """
     jsons_document = collection.find(document)
     return jsons_document
+
+
+def delete_one_document(collection, document):
+    """
+      This method deletes one document, by its document key.
+      :param collection: The db collection object.
+      :param document: A dictionary of {"document_key": "search_value"}.
+      For the first document just put empty dictionary {}.
+      :return: Json List<Object>.
+    """
+    collection.delete_one(document)
+    print(True)
+
+
+def delete_many_documents(collection, document):
+    """
+     This method deletes many documents, by a document key.
+     :param collection: The db collection object.
+     :param document: A dictionary of {"document_key": "search_value"}.
+     For all the collection just put empty dictionary {}.
+     :return: Json List<Object>.
+     """
+    collection.delete_many(document)
+
+def delete_number_of_documents(collection, number):
+    # Offering us to delete from the Top By object id.
+    # object_id = retrieve_one_document(collection, {})["_id"]
+    # delete_one_document(collection, {"_id": object_id})
+    document_number = number
+    while document_number > 0:
+        print("Deleting doc number:", document_number)
+        delete_one_document(collection, {})
+        document_number = document_number - 1
 
 
 def retrieve_documents_in_range(collection, document_key, tuple_range):
@@ -72,6 +106,7 @@ def retrieve_documents_in_range(collection, document_key, tuple_range):
     """
     jsons_document = collection.find({document_key: {"$in": tuple_range}})
     return jsons_document
+
 
 def retrieve_documents_under_roles(collection, document_keys, roles_list):
     """
