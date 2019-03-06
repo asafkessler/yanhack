@@ -11,14 +11,15 @@ FROM_LAT = 29
 TO_LAT = 33
 FROM_LON = 33
 TO_LON = 36
-DIST_DELTA = 30
-POINT_DELTA = 0.5
+DIST_DELTA = 10
+POINT_DELTA = 0.01
 MINUTES_DELTA = 2
-ANGLE_DELTA = 45
-NUM_OF_TRACKS = 1000000
+ANGLE_DELTA = 1
+# NUM_OF_TRACKS = 100000
+# NUM_OF_ELLIPSE = 5000
 
 tracks = pd.read_csv('C:\\michael\\work\\Hackathons\\yanhack\\FlightAware_IAI_2015-01-01_2015-03-31_tracks.csv',
-                     low_memory=False).head(NUM_OF_TRACKS)
+                     low_memory=False).head()
 minutes = tracks["Time (UTC)"]
 
 
