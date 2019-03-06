@@ -15,9 +15,10 @@ DIST_DELTA = 30
 POINT_DELTA = 0.5
 MINUTES_DELTA = 2
 ANGLE_DELTA = 45
+NUM_OF_TRACKS = 1000000
 
 tracks = pd.read_csv('C:\\michael\\work\\Hackathons\\yanhack\\FlightAware_IAI_2015-01-01_2015-03-31_tracks.csv',
-                     low_memory=False)
+                     low_memory=False).head(NUM_OF_TRACKS)
 minutes = tracks["Time (UTC)"]
 
 
@@ -48,7 +49,7 @@ def number_of_planes_in_ellipse(ellipse):
     total = 0
     lastday = 0
 
-    for index in r_tracks:
+    for index in range(0,len(r_tracks.index)):
         track = r_tracks.iloc[index]
         if (
                 is_point_in_ellipse(track.Latitude, track.Longitude, ellipse.cx, ellipse.cy, ellipse.h, ellipse.w,
@@ -57,6 +58,8 @@ def number_of_planes_in_ellipse(ellipse):
             if lastday != track.day:
                 total += 1
         lastday = track.day
+    if total == 0:
+        return 0
     return sum / total
 
 
