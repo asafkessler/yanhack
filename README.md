@@ -1,5 +1,5 @@
 ## yanat hackathon
-The amazing project of application A, in the yanat hackathon.
+IAF software development team project.
 
 Help:
 git rm -r --cached .idea to remove .idea directory from your project.
@@ -9,13 +9,9 @@ git rm -r --cached .idea to remove .idea directory from your project.
 2) Analyzing flights data.
 3) Filtering data.
 4) MongoDb Input and Output Connection.
+5) Machine Learning on flights and tracks information.
 
-Data Attributes:
-Every DataFrame in converted to a json will -->
-Note NaN’s and None will be converted to null and
-datetime objects will be converted to UNIX timestamps.
-
-<b>Task Description</b>:
+<b>What to pip ?</b>:
 1) pip install pandas
 2) pip install pymongo
 3) pip install OneLib
